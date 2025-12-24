@@ -1,5 +1,6 @@
 package com.instafeeling.web.controllers;
 
+import com.instafeeling.domain.dtos.LoginDTO;
 import com.instafeeling.domain.dtos.SignUpDTO;
 import com.instafeeling.domain.services.AuthService;
 import jakarta.validation.Valid;
@@ -19,5 +20,12 @@ public class AuthRestController {
     @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpDTO signUpDTO){
         this.authService.signup(signUpDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginDTO loginDTO){
+        this.authService.login(loginDTO);
+        return ResponseEntity.ok().build();
     }
 }

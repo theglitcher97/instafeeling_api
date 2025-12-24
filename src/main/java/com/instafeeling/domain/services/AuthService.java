@@ -1,5 +1,6 @@
 package com.instafeeling.domain.services;
 
+import com.instafeeling.domain.dtos.LoginDTO;
 import com.instafeeling.domain.dtos.SignUpDTO;
 import com.instafeeling.domain.repositories.UserRepository;
 import com.instafeeling.persistence.entities.UserEntity;
@@ -26,8 +27,21 @@ public class AuthService {
         userEntity.setPassword(this.passwordEncoder.passwordEncoder().encode(signUpDTO.password()));
 
         // save new user
-        this.userRepository.createAcccount(userEntity);
+        this.userRepository.createAccount(userEntity);
 
         // create token
+    }
+
+    public void login(@Valid LoginDTO loginDTO) {
+        // get user by email
+        UserEntity userEntity = this.userRepository.findUserByEmail(loginDTO.email());
+        if (userEntity == null)
+            throw new RuntimeException("Credential error: please check your email and password");
+
+        // validate password
+        if (!this.passwordEncoder.passwordEncoder().matches(loginDTO.password(), userEntity.getPassword()))
+            throw new RuntimeException("Credential error: please check your email and password");
+
+        // create and return token
     }
 }

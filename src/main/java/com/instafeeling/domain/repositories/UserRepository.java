@@ -7,5 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 public interface UserRepository {
     boolean isEmailAvailable(@NotBlank(message = "please provide an email") @Email(message = "please provide a valid email") String email);
 
-    void createAcccount(UserEntity userEntity);
+    void createAccount(UserEntity userEntity);
+
+    UserEntity findUserByEmail(@NotBlank(message = "please provide an email") @Email(message = "please provide a valid email") String email);
 }

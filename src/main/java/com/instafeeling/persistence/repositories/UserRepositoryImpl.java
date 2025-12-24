@@ -19,7 +19,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     @Transactional
-    public void createAcccount(UserEntity userEntity) {
+    public void createAccount(UserEntity userEntity) {
         this.userCrudRepository.save(userEntity);
+    }
+
+    @Override
+    public UserEntity findUserByEmail(String email) {
+        return this.userCrudRepository.findByEmail(email).orElse(null);
     }
 }
