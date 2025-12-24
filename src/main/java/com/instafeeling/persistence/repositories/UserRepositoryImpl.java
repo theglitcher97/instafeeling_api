@@ -14,7 +14,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean isEmailAvailable(String email) {
-        return this.userCrudRepository.existsByEmail(email);
+        return !this.userCrudRepository.existsByEmail(email);
     }
 
     @Override

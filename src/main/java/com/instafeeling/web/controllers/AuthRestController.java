@@ -5,6 +5,7 @@ import com.instafeeling.domain.dtos.SignUpDTO;
 import com.instafeeling.domain.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +19,14 @@ public class AuthRestController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpDTO signUpDTO){
-        this.authService.signup(signUpDTO);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> signUp(@Valid @RequestBody SignUpDTO signUpDTO){
+        String jwt = this.authService.signup(signUpDTO);
+        return new ResponseEntity<>(jwt, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginDTO loginDTO){
-        this.authService.login(loginDTO);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> login(@Valid @RequestBody LoginDTO loginDTO){
+        String jwt = this.authService.login(loginDTO);
+        return ResponseEntity.ok().body(jwt);
     }
 }

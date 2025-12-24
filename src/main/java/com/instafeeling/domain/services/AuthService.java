@@ -4,18 +4,25 @@ import com.instafeeling.domain.dtos.LoginDTO;
 import com.instafeeling.domain.dtos.SignUpDTO;
 import com.instafeeling.domain.repositories.UserRepository;
 import com.instafeeling.persistence.entities.UserEntity;
-import com.instafeeling.web.config.SecurePasswordEncoder;
+import com.instafeeling.web.config.SecurityConfig;
+import com.instafeeling.web.utils.JwtUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private final SecurePasswordEncoder passwordEncoder;
+    private final SecurityConfig passwordEncoder;
+    private final JwtUtils jwtUtils;
 
-    public void signup(@Valid SignUpDTO signUpDTO) {
+    public String signup(@Valid SignUpDTO signUpDTO) {
+        // check passwords are equal
+        if (!signUpDTO.password().equals(signUpDTO.confirmPassword()))
+            throw new RuntimeException("passwords don't coincide");
+
         // check email uniqueness
         if (!this.userRepository.isEmailAvailable(signUpDTO.email())) {
             throw new RuntimeException("This email is already in used");
@@ -30,18 +37,21 @@ public class AuthService {
         this.userRepository.createAccount(userEntity);
 
         // create token
+        return this.jwtUtils.createToken(userEntity.getEmail());
     }
 
-    public void login(@Valid LoginDTO loginDTO) {
+    public String login(@Valid LoginDTO loginDTO) {
         // get user by email
         UserEntity userEntity = this.userRepository.findUserByEmail(loginDTO.email());
         if (userEntity == null)
-            throw new RuntimeException("Credential error: please check your email and password");
+            throw new BadCredentialsException("Credential error: please check your email and password");
+
 
         // validate password
         if (!this.passwordEncoder.passwordEncoder().matches(loginDTO.password(), userEntity.getPassword()))
-            throw new RuntimeException("Credential error: please check your email and password");
+            throw new BadCredentialsException("Credential error: please check your email and password");
 
         // create and return token
+        return this.jwtUtils.createToken(loginDTO.email());
     }
 }
