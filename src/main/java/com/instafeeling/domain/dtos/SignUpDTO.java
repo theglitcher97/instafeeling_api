@@ -1,4 +1,4 @@
-package com.instafeeling.domain;
+package com.instafeeling.domain.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
