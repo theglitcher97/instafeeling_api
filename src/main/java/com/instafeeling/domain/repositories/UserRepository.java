@@ -10,4 +10,5 @@ public interface UserRepository {
     UserEntity createAccount(UserEntity userEntity);
     UserEntity findUserByEmail(@NotBlank(message = "please provide an email") @Email(message = "please provide a valid email") String email);
     UserEntity findUserById(@NotNull Long userId);
+    void saveAccount(UserEntity userEntity);
 }

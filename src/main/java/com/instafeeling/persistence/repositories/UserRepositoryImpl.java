@@ -4,10 +4,10 @@ import com.instafeeling.domain.repositories.UserRepository;
 import com.instafeeling.persistence.crud.UserCrudRepository;
 import com.instafeeling.persistence.entities.UserEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Repository
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
     private final UserCrudRepository userCrudRepository;
@@ -31,5 +31,11 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public UserEntity findUserById(Long userId) {
         return this.userCrudRepository.findById(userId).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void saveAccount(UserEntity userEntity) {
+        this.userCrudRepository.save(userEntity);
     }
 }
