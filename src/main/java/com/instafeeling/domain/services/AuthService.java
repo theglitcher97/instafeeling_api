@@ -34,10 +34,10 @@ public class AuthService {
         userEntity.setPassword(this.passwordEncoder.passwordEncoder().encode(signUpDTO.password()));
 
         // save new user
-        this.userRepository.createAccount(userEntity);
+        userEntity = this.userRepository.createAccount(userEntity);
 
         // create token
-        return this.jwtUtils.createToken(userEntity.getEmail());
+        return this.jwtUtils.createToken(userEntity.getId());
     }
 
     public String login(@Valid LoginDTO loginDTO) {
@@ -52,6 +52,6 @@ public class AuthService {
             throw new BadCredentialsException("Credential error: please check your email and password");
 
         // create and return token
-        return this.jwtUtils.createToken(loginDTO.email());
+        return this.jwtUtils.createToken(userEntity.getId());
     }
 }

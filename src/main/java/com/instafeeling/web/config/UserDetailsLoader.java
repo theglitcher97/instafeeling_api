@@ -15,10 +15,11 @@ public class UserDetailsLoader implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = this.userRepository.findUserByEmail(username);
+    public UserDetails loadUserByUsername(String userIdStr) throws UsernameNotFoundException {
+        Long userId = Long.parseLong(userIdStr);
+        UserEntity userEntity = this.userRepository.findUserById(userId);
         if (userEntity == null)
-            throw new UsernameNotFoundException("CANNOT FIND USERNAME");
+            throw new UsernameNotFoundException("CANNOT FIND USER BY ID: "+userId);
 
         return User.builder()
                 .username(userEntity.getEmail())

@@ -43,8 +43,8 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // load the user by username
-        String email = this.jwtUtils.getSubject(token);
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
+        String userId = this.jwtUtils.getSubject(token);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(userId);
 
         // load user into the security context
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

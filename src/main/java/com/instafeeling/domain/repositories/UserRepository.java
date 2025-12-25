@@ -3,11 +3,11 @@ package com.instafeeling.domain.repositories;
 import com.instafeeling.persistence.entities.UserEntity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public interface UserRepository {
     boolean isEmailAvailable(@NotBlank(message = "please provide an email") @Email(message = "please provide a valid email") String email);
-
-    void createAccount(UserEntity userEntity);
-
+    UserEntity createAccount(UserEntity userEntity);
     UserEntity findUserByEmail(@NotBlank(message = "please provide an email") @Email(message = "please provide a valid email") String email);
+    UserEntity findUserById(@NotNull Long userId);
 }

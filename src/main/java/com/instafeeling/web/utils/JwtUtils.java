@@ -25,9 +25,9 @@ public class JwtUtils {
 
     private static final Date DEFAULT_JWT_EXP_TIME = new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1));
 
-    public String createToken(@Validated @Email String userEmail){
+    public String createToken(Long userId){
         return  JWT.create()
-                .withSubject(userEmail)
+                .withSubject(userId.toString())
                 .withExpiresAt(DEFAULT_JWT_EXP_TIME)
                 .withIssuer(JWT_ISSUER)
                 .sign(getAlgorithm());
