@@ -1,7 +1,7 @@
 package com.instafeeling.web.controllers;
 
-import com.instafeeling.domain.dtos.LoginDTO;
-import com.instafeeling.domain.dtos.SignUpDTO;
+import com.instafeeling.web.dtos.LoginDTO;
+import com.instafeeling.web.dtos.SignUpDTO;
 import com.instafeeling.domain.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

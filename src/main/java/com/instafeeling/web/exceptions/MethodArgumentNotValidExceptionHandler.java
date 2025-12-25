@@ -1,6 +1,6 @@
 package com.instafeeling.web.exceptions;
 
-import com.instafeeling.domain.dtos.GenericErrorResponseDTO;
+import com.instafeeling.web.dtos.GenericErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

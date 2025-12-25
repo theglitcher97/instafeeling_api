@@ -1,4 +1,4 @@
-package com.instafeeling.domain.dtos;
+package com.instafeeling.web.dtos;
 
 public record GenericErrorResponseDTO(
         String timestamp,
