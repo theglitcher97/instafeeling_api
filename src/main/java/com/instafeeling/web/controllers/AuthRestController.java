@@ -26,7 +26,7 @@ public class AuthRestController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginDTO loginDTO){
-        String jwt = this.authService.login(loginDTO);
+        String jwt = this.authService.login(loginDTO.email(), loginDTO.password());
         return ResponseEntity.ok().body(jwt);
     }
 }

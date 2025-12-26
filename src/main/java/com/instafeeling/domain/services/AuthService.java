@@ -37,15 +37,15 @@ public class AuthService {
         return this.jwtUtils.createToken(accountId);
     }
 
-    public String login(@Valid LoginDTO loginDTO) {
+    public String login(String email, String rawPassword) {
         // get user by email
-        UserEntity userEntity = this.userRepository.findUserByEmail(loginDTO.email());
+        UserEntity userEntity = this.userRepository.findUserByEmail(email);
         if (userEntity == null)
             throw new BadCredentialsException("Credential error: please check your email and password");
 
 
         // validate password
-        if (!this.passwordManager.verifyPassword(loginDTO.password(), userEntity.getPassword()))
+        if (!this.passwordManager.verifyPassword(rawPassword, userEntity.getPassword()))
             throw new BadCredentialsException("Credential error: please check your email and password");
 
         // create and return token
