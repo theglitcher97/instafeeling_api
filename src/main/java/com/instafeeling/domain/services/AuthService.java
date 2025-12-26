@@ -2,7 +2,6 @@ package com.instafeeling.domain.services;
 
 import com.instafeeling.domain.infra.PasswordManager;
 import com.instafeeling.web.dtos.LoginDTO;
-import com.instafeeling.web.dtos.SignUpDTO;
 import com.instafeeling.domain.repositories.UserRepository;
 import com.instafeeling.persistence.entities.UserEntity;
 import com.instafeeling.web.utils.JwtUtils;
@@ -18,26 +17,24 @@ public class AuthService {
     private final PasswordManager passwordManager;
     private final JwtUtils jwtUtils;
 
-    public String signup(SignUpDTO signUpDTO) {
+    public String signup(String email, String password, String confirmPassword) {
         // check passwords are equal
-        if (!signUpDTO.password().equals(signUpDTO.confirmPassword()))
+        if (!password.equals(confirmPassword))
             throw new RuntimeException("passwords don't coincide");
 
         // check email uniqueness
-        if (!this.userRepository.isEmailAvailable(signUpDTO.email())) {
+        if (!this.userRepository.isEmailAvailable(email)) {
             throw new RuntimeException("This email is already in used");
         }
 
         // encrypt password
-        UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(signUpDTO.email());
-        userEntity.setPassword(this.passwordManager.hashPassword(signUpDTO.password()));
+        String hashPassword = this.passwordManager.hashPassword(password);
 
-        // save new user
-        userEntity = this.userRepository.createAccount(userEntity);
+        // create new account
+        Long accountId = this.userRepository.createAccount(email, hashPassword);
 
         // create token
-        return this.jwtUtils.createToken(userEntity.getId());
+        return this.jwtUtils.createToken(accountId);
     }
 
     public String login(@Valid LoginDTO loginDTO) {

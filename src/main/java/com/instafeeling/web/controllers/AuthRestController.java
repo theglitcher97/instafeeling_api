@@ -20,7 +20,7 @@ public class AuthRestController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@Valid @RequestBody SignUpDTO signUpDTO){
-        String jwt = this.authService.signup(signUpDTO);
+        String jwt = this.authService.signup(signUpDTO.email(), signUpDTO.password(), signUpDTO.confirmPassword());
         return new ResponseEntity<>(jwt, HttpStatus.CREATED);
     }
 

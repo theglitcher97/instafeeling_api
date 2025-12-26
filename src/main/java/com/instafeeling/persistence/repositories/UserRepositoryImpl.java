@@ -19,8 +19,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     @Transactional
-    public UserEntity createAccount(UserEntity userEntity) {
-        return this.userCrudRepository.save(userEntity);
+    public Long createAccount(String email, String password) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(email);
+        userEntity.setPassword(password);
+        this.userCrudRepository.save(userEntity);
+        return userEntity.getId();
     }
 
     @Override
