@@ -1,11 +1,9 @@
 package com.instafeeling.domain.services;
 
 import com.instafeeling.domain.infra.PasswordManager;
-import com.instafeeling.web.dtos.LoginDTO;
 import com.instafeeling.domain.repositories.UserRepository;
 import com.instafeeling.persistence.entities.UserEntity;
 import com.instafeeling.web.utils.JwtUtils;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
