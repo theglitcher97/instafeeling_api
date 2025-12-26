@@ -5,6 +5,7 @@ import com.instafeeling.web.dtos.UpdateEmailDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,8 @@ public class AccountRestController {
 
     @PatchMapping("/update-email")
     public ResponseEntity<Void> updateEmail(@Valid @RequestBody UpdateEmailDTO updateEmailDTO){
-        this.accountManagerService.updateEmail(updateEmailDTO);
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        this.accountManagerService.updateEmail(userId, updateEmailDTO.email(), updateEmailDTO.password());
         return ResponseEntity.ok().build();
     }
 }
