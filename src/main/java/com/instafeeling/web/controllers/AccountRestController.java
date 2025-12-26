@@ -2,6 +2,7 @@ package com.instafeeling.web.controllers;
 
 import com.instafeeling.domain.services.AccountManagerService;
 import com.instafeeling.web.dtos.UpdateEmailDTO;
+import com.instafeeling.web.dtos.UpdatePasswordDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,13 @@ public class AccountRestController {
     public ResponseEntity<Void> updateEmail(@Valid @RequestBody UpdateEmailDTO updateEmailDTO){
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         this.accountManagerService.updateEmail(userId, updateEmailDTO.email(), updateEmailDTO.password());
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<Void> updatePassword(@Valid @RequestBody UpdatePasswordDTO updateEmailDTO){
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        this.accountManagerService.updatePassword(userId, updateEmailDTO.currentPassword(), updateEmailDTO.newPassword());
         return ResponseEntity.ok().build();
     }
 }

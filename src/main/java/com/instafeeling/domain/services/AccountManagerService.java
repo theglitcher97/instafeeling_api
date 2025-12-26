@@ -28,4 +28,16 @@ public class AccountManagerService {
         userEntity.setEmail(newEmail);
         this.userRepository.saveAccount(userEntity);
     }
+
+    public void updatePassword(Long userId, String currentPassword, String newPassword) {
+        UserEntity userEntity = this.userRepository.findUserById(userId);
+
+        // validate this person password is correct
+        if (!this.passwordManager.verifyPassword(currentPassword, userEntity.getPassword()))
+            throw new BadCredentialsException("Credential error: please check your password");
+
+        // update password
+        userEntity.setPassword(this.passwordManager.hashPassword(newPassword));
+        this.userRepository.saveAccount(userEntity);
+    }
 }
