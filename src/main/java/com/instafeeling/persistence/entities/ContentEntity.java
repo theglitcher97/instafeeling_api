@@ -19,7 +19,7 @@ public class ContentEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
-    private UserEntity ownerId;
+    private UserEntity userEntity;
 
     @Column
     private String name;

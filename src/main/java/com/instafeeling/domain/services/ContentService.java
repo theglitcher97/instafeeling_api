@@ -5,9 +5,11 @@ import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.repositories.ContentRepository;
 import com.instafeeling.domain.validators.ContentValidator;
 import lombok.AllArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -38,5 +40,9 @@ public class ContentService {
             this.contentRepository.deleteContent(content.id());
             throw new RuntimeException("Something went wrong");
         }
+    }
+
+    public List<Content> getContent(Long userId) {
+        return this.contentRepository.findContent(userId);
     }
 }
