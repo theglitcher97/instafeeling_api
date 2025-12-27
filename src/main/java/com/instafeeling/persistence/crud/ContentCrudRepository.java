@@ -6,8 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContentCrudRepository extends CrudRepository<ContentEntity, Long> {
     @Query("Select ce from ContentEntity ce Where ce.userEntity.id = :userId")
     List<ContentEntity> findAllByUserId(@Param("userId") Long userId);
+
+    @Query("Select cen From ContentEntity cen where cen.id = :contentId and cen.userEntity.id = :userId")
+    Optional<ContentEntity> findByIdAndUserId(@Param("contentId") Long contentId, @Param("userId") Long userId);
 }

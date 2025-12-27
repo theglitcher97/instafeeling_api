@@ -10,4 +10,6 @@ public interface ContentRepository {
     void deleteContent(Long id);
 
     List<Content> findContent(Long userId);
+
+    boolean validateOwnership(Long userId, Long contentId);
 }

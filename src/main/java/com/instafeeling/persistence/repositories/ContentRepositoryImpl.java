@@ -41,4 +41,9 @@ public class ContentRepositoryImpl implements ContentRepository {
     public List<Content> findContent(Long userId) {
         return this.contentEntityMapper.toContent(this.contentCrudRepository.findAllByUserId(userId));
     }
+
+    @Override
+    public boolean validateOwnership(Long userId, Long contentId) {
+        return this.contentCrudRepository.findByIdAndUserId(contentId, userId).isPresent();
+    }
 }

@@ -5,7 +5,6 @@ import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.repositories.ContentRepository;
 import com.instafeeling.domain.validators.ContentValidator;
 import lombok.AllArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -44,5 +43,17 @@ public class ContentService {
 
     public List<Content> getContent(Long userId) {
         return this.contentRepository.findContent(userId);
+    }
+
+    public byte[] loadUserContent(Long userId, Long contentId) {
+        if (!this.contentRepository.validateOwnership(userId, contentId))
+            throw new RuntimeException("You are not authorized!");
+
+        try {
+            return this.contentStorageService.loadContent(contentId.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Something went wrong");
+        }
     }
 }
