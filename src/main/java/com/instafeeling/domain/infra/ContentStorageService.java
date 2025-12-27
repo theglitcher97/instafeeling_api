@@ -1,5 +1,7 @@
 package com.instafeeling.domain.infra;
 
-public interface ContentSystemStorage {
-    void saveContent(byte[] file);
+import java.io.IOException;
+
+public interface ContentStorageService {
+    void storeContent(String storageKey, byte[] content) throws IOException;
 }

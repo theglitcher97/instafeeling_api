@@ -1,4 +1,7 @@
 package com.instafeeling.persistence.crud;
 
-public interface ContentCrudRespository {
+import com.instafeeling.persistence.entities.ContentEntity;
+import org.springframework.data.repository.CrudRepository;
+
+public interface ContentCrudRepository extends CrudRepository<ContentEntity, Long> {
 }
