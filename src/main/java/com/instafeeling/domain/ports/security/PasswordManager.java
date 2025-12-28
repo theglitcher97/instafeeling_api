@@ -1,4 +1,4 @@
-package com.instafeeling.domain.infra;
+package com.instafeeling.domain.ports.security;
 
 public interface PasswordManager {
     boolean verifyPassword(String rawPassword, String hashedPassword);

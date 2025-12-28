@@ -1,4 +1,4 @@
-package com.instafeeling.domain.infra;
+package com.instafeeling.domain.ports.storage;
 
 import java.io.IOException;
 

@@ -1,6 +1,6 @@
 package com.instafeeling.web.config;
 
-import com.instafeeling.domain.repositories.UserRepository;
+import com.instafeeling.domain.ports.storage.UserRepository;
 import com.instafeeling.persistence.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;

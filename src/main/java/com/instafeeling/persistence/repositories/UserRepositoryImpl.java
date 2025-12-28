@@ -1,6 +1,6 @@
 package com.instafeeling.persistence.repositories;
 
-import com.instafeeling.domain.repositories.UserRepository;
+import com.instafeeling.domain.ports.storage.UserRepository;
 import com.instafeeling.persistence.crud.UserCrudRepository;
 import com.instafeeling.persistence.entities.UserEntity;
 import lombok.AllArgsConstructor;

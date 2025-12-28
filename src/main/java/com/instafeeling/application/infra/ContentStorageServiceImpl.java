@@ -1,6 +1,6 @@
-package com.instafeeling.infra.content;
+package com.instafeeling.application.infra;
 
-import com.instafeeling.domain.infra.ContentStorageService;
+import com.instafeeling.domain.ports.storage.ContentStorageService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

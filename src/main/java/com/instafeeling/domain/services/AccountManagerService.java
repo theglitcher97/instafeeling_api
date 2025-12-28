@@ -1,7 +1,7 @@
 package com.instafeeling.domain.services;
 
-import com.instafeeling.domain.infra.PasswordManager;
-import com.instafeeling.domain.repositories.UserRepository;
+import com.instafeeling.domain.ports.security.PasswordManager;
+import com.instafeeling.domain.ports.storage.UserRepository;
 import com.instafeeling.persistence.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;

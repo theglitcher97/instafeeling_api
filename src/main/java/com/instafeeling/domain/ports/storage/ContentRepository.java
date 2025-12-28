@@ -1,4 +1,4 @@
-package com.instafeeling.domain.repositories;
+package com.instafeeling.domain.ports.storage;
 
 import com.instafeeling.domain.models.Content;
 

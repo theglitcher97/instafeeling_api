@@ -1,6 +1,6 @@
 package com.instafeeling.web.config;
 
-import com.instafeeling.domain.infra.PasswordManager;
+import com.instafeeling.domain.ports.security.PasswordManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

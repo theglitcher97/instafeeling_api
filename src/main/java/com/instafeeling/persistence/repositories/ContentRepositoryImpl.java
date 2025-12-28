@@ -1,7 +1,7 @@
 package com.instafeeling.persistence.repositories;
 
 import com.instafeeling.domain.models.Content;
-import com.instafeeling.domain.repositories.ContentRepository;
+import com.instafeeling.domain.ports.storage.ContentRepository;
 import com.instafeeling.persistence.crud.ContentCrudRepository;
 import com.instafeeling.persistence.crud.UserCrudRepository;
 import com.instafeeling.persistence.entities.ContentEntity;

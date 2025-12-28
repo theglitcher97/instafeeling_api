@@ -1,8 +1,8 @@
 package com.instafeeling.domain.services;
 
-import com.instafeeling.domain.infra.ContentStorageService;
+import com.instafeeling.domain.ports.storage.ContentStorageService;
 import com.instafeeling.domain.models.Content;
-import com.instafeeling.domain.repositories.ContentRepository;
+import com.instafeeling.domain.ports.storage.ContentRepository;
 import com.instafeeling.domain.validators.ContentValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
