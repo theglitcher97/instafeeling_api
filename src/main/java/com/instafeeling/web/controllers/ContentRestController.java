@@ -1,5 +1,6 @@
 package com.instafeeling.web.controllers;
 
+import com.instafeeling.application.use_cases.UploadContentUseCase;
 import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.services.ContentService;
 import com.instafeeling.persistence.mappers.ContentMapper;
@@ -21,9 +22,10 @@ import java.util.List;
 public class ContentRestController {
     private final ContentService contentService;
     private final ContentMapper contentMapper;
+    private final UploadContentUseCase uploadContentUseCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Long> createContent(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<ContentDTO> createContent(@RequestParam("file") MultipartFile file) throws IOException {
         Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         if (!file.isEmpty()) {
             String contentName = file.getOriginalFilename();
@@ -31,8 +33,8 @@ public class ContentRestController {
             Long contentSize = file.getSize();
             byte[] contentBytes = file.getBytes();
 
-            Long contentId = this.contentService.createContent(userId, contentName, contentType, contentSize, contentBytes);
-            return new ResponseEntity<>(contentId, HttpStatus.CREATED);
+            ContentDTO contentDTO = this.uploadContentUseCase.uploadContent(userId, contentName, contentType, contentSize, contentBytes);
+            return new ResponseEntity<>(contentDTO, HttpStatus.CREATED);
         }else{
             return ResponseEntity.badRequest().build();
         }

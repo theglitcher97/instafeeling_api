@@ -17,9 +17,7 @@ public class ContentService {
     private final ContentRepository contentRepository;
     private final ContentStorageService contentStorageService;
 
-    public Long createContent(Long userId, String contentName, String contentType, Long contentSize, byte[] contentBytes) {
-        Content content = new Content(null, userId,  contentName, contentType, contentSize);
-
+    public Content createContent(Content content) {
         //validates contentType
         if (!this.contentValidator.isValidType(content.contentType()))
             throw new RuntimeException("Invalid content type");
@@ -29,16 +27,7 @@ public class ContentService {
             throw new RuntimeException("Content is too big");
 
         // saves metadata and creates relation between user and content
-        content = this.contentRepository.createContent(content);
-
-        try {
-            // stores the files
-            this.contentStorageService.storeContent(content.id().toString(), contentBytes);
-            return content.id();
-        }catch (RuntimeException | IOException e){
-            this.contentRepository.deleteContent(content.id());
-            throw new RuntimeException("Something went wrong");
-        }
+        return this.contentRepository.createContent(content);
     }
 
     public List<Content> getContent(Long userId) {
@@ -55,5 +44,9 @@ public class ContentService {
             e.printStackTrace();
             throw new RuntimeException("Something went wrong");
         }
+    }
+
+    public void deleteContent(Long id) {
+        this.contentRepository.deleteContent(id);
     }
 }
