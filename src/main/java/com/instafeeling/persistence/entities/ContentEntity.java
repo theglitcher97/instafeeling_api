@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "content")
 @AllArgsConstructor
@@ -29,4 +32,9 @@ public class ContentEntity {
 
     @Column
     private Long size;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "content_tags", joinColumns = @JoinColumn(name = "content_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    private Set<TagEntity> tags = new HashSet<>();
 }

@@ -21,7 +21,6 @@ public class ContentRepositoryImpl implements ContentRepository {
     private final ContentEntityMapper contentEntityMapper;
 
     @Override
-    @Transactional
     public Content createContent(Content content) {
         UserEntity userEntity = this.userRepository.findById(content.ownerId()).get();
         ContentEntity contentEntity = this.contentEntityMapper.toContentEntity(content);

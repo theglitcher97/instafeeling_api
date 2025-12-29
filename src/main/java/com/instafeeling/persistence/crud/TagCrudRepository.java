@@ -2,12 +2,14 @@ package com.instafeeling.persistence.crud;
 
 import com.instafeeling.persistence.entities.TagEntity;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface CrudTagRepository extends CrudRepository<TagEntity, Long> {
-    boolean existByValue(String tag);
+public interface TagCrudRepository extends CrudRepository<TagEntity, Long> {
+    Optional<TagEntity> findByValue(String tag);
 
+    List<TagEntity> findAllByValueIn(List<String> tags);
+
+    void deleteAllByValueIn(List<String> tags);
 }

@@ -33,4 +33,10 @@ public class ContentStorageServiceImpl implements ContentStorageService {
         this.root = Paths.get(rootDir);
         return Files.readAllBytes(this.root.resolve(storageKey));
     }
+
+    @Override
+    public void deleteContent(String storageKey) throws IOException {
+        this.root = Paths.get(rootDir);
+        Files.deleteIfExists(this.root.resolve(storageKey));
+    }
 }
