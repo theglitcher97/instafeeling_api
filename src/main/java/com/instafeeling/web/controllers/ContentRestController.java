@@ -1,5 +1,6 @@
 package com.instafeeling.web.controllers;
 
+import com.instafeeling.application.use_cases.DeleteContentUseCase;
 import com.instafeeling.application.use_cases.UploadContentUseCase;
 import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.services.ContentService;
@@ -24,6 +25,7 @@ public class ContentRestController {
     private final ContentService contentService;
     private final ContentMapper contentMapper;
     private final UploadContentUseCase uploadContentUseCase;
+    private final DeleteContentUseCase deleteContentUseCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ContentDTO> createContent(@RequestParam("file") MultipartFile file, @RequestParam("tags") String tags) throws IOException {
@@ -53,5 +55,12 @@ public class ContentRestController {
     public ResponseEntity<byte[]> getContent(@PathVariable("id") Long contentId){
         Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return ResponseEntity.ok().body(this.contentService.loadUserContent(userId, contentId));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteContent(@PathVariable("id") Long contentId){
+        Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        this.deleteContentUseCase.deleteContent(userId, contentId);
+        return ResponseEntity.ok().build();
     }
 }

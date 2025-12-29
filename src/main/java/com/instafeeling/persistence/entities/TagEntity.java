@@ -24,7 +24,7 @@ public class TagEntity {
     @Column(unique = true, length = 64)
     private String value;
 
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JsonIgnore
     private Set<ContentEntity> contentEntities = new HashSet<>();
 }

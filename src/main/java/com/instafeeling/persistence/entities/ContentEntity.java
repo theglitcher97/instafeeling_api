@@ -33,7 +33,7 @@ public class ContentEntity {
     @Column
     private Long size;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(name = "content_tags", joinColumns = @JoinColumn(name = "content_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private Set<TagEntity> tags = new HashSet<>();
