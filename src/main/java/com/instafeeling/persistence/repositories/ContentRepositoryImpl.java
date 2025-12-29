@@ -3,8 +3,10 @@ package com.instafeeling.persistence.repositories;
 import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.ports.storage.ContentRepository;
 import com.instafeeling.persistence.crud.ContentCrudRepository;
+import com.instafeeling.persistence.crud.LikeCrudRepository;
 import com.instafeeling.persistence.crud.UserCrudRepository;
 import com.instafeeling.persistence.entities.ContentEntity;
+import com.instafeeling.persistence.entities.LikeEntity;
 import com.instafeeling.persistence.entities.UserEntity;
 import com.instafeeling.persistence.mappers.ContentEntityMapper;
 import lombok.AllArgsConstructor;
@@ -16,13 +18,14 @@ import java.util.List;
 @Repository
 @AllArgsConstructor
 public class ContentRepositoryImpl implements ContentRepository {
-    private final UserCrudRepository userRepository;
+    private final UserCrudRepository userCrudRepository;
     private final ContentCrudRepository contentCrudRepository;
+    private final LikeCrudRepository likeCrudRepository;
     private final ContentEntityMapper contentEntityMapper;
 
     @Override
     public Content createContent(Content content) {
-        UserEntity userEntity = this.userRepository.findById(content.ownerId()).get();
+        UserEntity userEntity = this.userCrudRepository.findById(content.ownerId()).get();
         ContentEntity contentEntity = this.contentEntityMapper.toContentEntity(content);
         contentEntity.setUserEntity(userEntity);
 
@@ -44,5 +47,18 @@ public class ContentRepositoryImpl implements ContentRepository {
     @Override
     public boolean validateOwnership(Long userId, Long contentId) {
         return this.contentCrudRepository.findByIdAndUserId(contentId, userId).isPresent();
+    }
+
+    @Override
+    public boolean validateExistence(Long contentId) {
+        return this.contentCrudRepository.findById(contentId).isPresent();
+    }
+
+    @Override
+    public void createLike(Long userId, Long contentId) {
+        UserEntity userEntity = this.userCrudRepository.findById(userId).get();
+        ContentEntity contentEntity = this.contentCrudRepository.findById(contentId).get();
+        LikeEntity likeEntity = new LikeEntity( userEntity, contentEntity);
+        this.likeCrudRepository.save(likeEntity);
     }
 }

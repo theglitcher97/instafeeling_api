@@ -12,4 +12,8 @@ public interface ContentRepository {
     List<Content> findContent(Long userId);
 
     boolean validateOwnership(Long userId, Long contentId);
+
+    boolean validateExistence(Long contentId);
+
+    void createLike(Long userId, Long contentId);
 }

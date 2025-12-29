@@ -49,4 +49,8 @@ public class ContentService {
     public void deleteContent(Long id) {
         this.contentRepository.deleteContent(id);
     }
+
+    public void addLike(Long userId, Long contentId) {
+        this.contentRepository.createLike(userId, contentId);
+    }
 }
