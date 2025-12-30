@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Table(name = "likes")
 @Entity
@@ -33,5 +34,22 @@ public class LikeEntity implements Serializable {
         this.userEntity = userEntity;
         this.contentEntity = contentEntity;
         this.id = new LikeEntityID(userEntity.getId(), contentEntity.getId());
+    }
+
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "last_updated_at", nullable = false)
+    private LocalDateTime lastUpdateAt;
+
+    @PrePersist
+    private void onPrePersist(){
+        this.createdAt = LocalDateTime.now();
+        this.lastUpdateAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onPreUpdate(){
+        this.lastUpdateAt = LocalDateTime.now();
     }
 }

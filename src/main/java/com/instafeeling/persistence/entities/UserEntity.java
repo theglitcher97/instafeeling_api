@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -22,4 +25,21 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "last_updated_at", nullable = false)
+    private LocalDateTime lastUpdateAt;
+
+    @PrePersist
+    private void onPrePersist(){
+        this.createdAt = LocalDateTime.now();
+        this.lastUpdateAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onPreUpdate(){
+        this.lastUpdateAt = LocalDateTime.now();
+    }
 }

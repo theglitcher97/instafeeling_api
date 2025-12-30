@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,4 +38,12 @@ public class ContentEntity {
     @JoinTable(name = "content_tags", joinColumns = @JoinColumn(name = "content_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private Set<TagEntity> tags = new HashSet<>();
+
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    private void onPrePersist(){
+        this.createdAt = LocalDateTime.now();
+    }
 }
