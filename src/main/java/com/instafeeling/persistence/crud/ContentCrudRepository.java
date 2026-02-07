@@ -1,8 +1,6 @@
 package com.instafeeling.persistence.crud;
 
-import com.instafeeling.domain.models.Content;
 import com.instafeeling.persistence.entities.ContentEntity;
-import com.instafeeling.persistence.entities.TagEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

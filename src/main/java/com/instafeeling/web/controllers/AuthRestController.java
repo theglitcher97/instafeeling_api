@@ -1,5 +1,6 @@
 package com.instafeeling.web.controllers;
 
+import com.instafeeling.web.dtos.AuthDTO;
 import com.instafeeling.web.dtos.LoginDTO;
 import com.instafeeling.web.dtos.SignUpDTO;
 import com.instafeeling.domain.services.AuthService;
@@ -22,18 +23,18 @@ public class AuthRestController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@Valid @RequestBody SignUpDTO signUpDTO){
+    public ResponseEntity<AuthDTO> signUp(@Valid @RequestBody SignUpDTO signUpDTO){
         // check passwords are equal
         if (!signUpDTO.password().equals(signUpDTO.confirmPassword()))
             throw new RuntimeException("passwords don't coincide");
 
         Long id = this.authService.signup(signUpDTO.email(), signUpDTO.password());
-        return new ResponseEntity<>(this.jwtUtils.createToken(id), HttpStatus.CREATED);
+        return new ResponseEntity<>(new AuthDTO(this.jwtUtils.createToken(id)), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginDTO loginDTO){
+    public ResponseEntity<AuthDTO> login(@Valid @RequestBody LoginDTO loginDTO){
         Long userId = this.authService.login(loginDTO.email(), loginDTO.password());
-        return ResponseEntity.ok().body(this.jwtUtils.createToken(userId));
+        return ResponseEntity.ok().body(new AuthDTO(this.jwtUtils.createToken(userId)));
     }
 }
