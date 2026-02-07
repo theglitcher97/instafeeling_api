@@ -4,9 +4,11 @@ import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.ports.storage.ContentRepository;
 import com.instafeeling.persistence.crud.ContentCrudRepository;
 import com.instafeeling.persistence.crud.LikeCrudRepository;
+import com.instafeeling.persistence.crud.TagCrudRepository;
 import com.instafeeling.persistence.crud.UserCrudRepository;
 import com.instafeeling.persistence.entities.ContentEntity;
 import com.instafeeling.persistence.entities.LikeEntity;
+import com.instafeeling.persistence.entities.TagEntity;
 import com.instafeeling.persistence.entities.UserEntity;
 import com.instafeeling.persistence.mappers.ContentEntityMapper;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -22,6 +25,7 @@ public class ContentRepositoryImpl implements ContentRepository {
     private final ContentCrudRepository contentCrudRepository;
     private final LikeCrudRepository likeCrudRepository;
     private final ContentEntityMapper contentEntityMapper;
+    private final TagCrudRepository tagCrudRepository;
 
     @Override
     public Content createContent(Content content) {
@@ -60,5 +64,12 @@ public class ContentRepositoryImpl implements ContentRepository {
         ContentEntity contentEntity = this.contentCrudRepository.findById(contentId).get();
         LikeEntity likeEntity = new LikeEntity( userEntity, contentEntity);
         this.likeCrudRepository.save(likeEntity);
+    }
+
+    @Override
+    public List<Content> findPopular() {
+        List<TagEntity> tagEntities = this.tagCrudRepository.findPopularTags();
+        List<String> tagValues = tagEntities.stream().map(TagEntity::getValue).collect(Collectors.toList());
+        return this.contentEntityMapper.toContent(this.contentCrudRepository.findPopularWithTags(tagValues));
     }
 }

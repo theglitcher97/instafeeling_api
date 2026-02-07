@@ -1,6 +1,7 @@
 package com.instafeeling.domain.ports.storage;
 
 import com.instafeeling.domain.models.Content;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ContentRepository {
     boolean validateExistence(Long contentId);
 
     void createLike(Long userId, Long contentId);
+
+     List<Content> findPopular();
 }

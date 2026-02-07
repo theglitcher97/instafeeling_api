@@ -25,7 +25,12 @@ public class ContentStorageServiceImpl implements ContentStorageService {
     public void storeContent(String storageKey, byte[] content) throws IOException {
         this.root = Paths.get(rootDir);
         Path target = this.root.resolve(storageKey); // rootPath + storageKey
-        Files.copy(new ByteArrayInputStream(content), target, StandardCopyOption.REPLACE_EXISTING);
+        try {
+            Files.copy(new ByteArrayInputStream(content), target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e){
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override

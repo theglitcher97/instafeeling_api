@@ -25,9 +25,9 @@ public class TagEntity {
     @Column(unique = true, length = 64)
     private String value;
 
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "tagEntity")
     @JsonIgnore
-    private Set<ContentEntity> contentEntities = new HashSet<>();
+    private Set<ContentTagsEntity> contentTags = new HashSet<>();
 
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -36,6 +36,4 @@ public class TagEntity {
     private void onPrePersist(){
         this.createdAt = LocalDateTime.now();
     }
-
-
 }

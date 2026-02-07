@@ -34,10 +34,8 @@ public class ContentEntity {
     @Column
     private Long size;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
-    @JoinTable(name = "content_tags", joinColumns = @JoinColumn(name = "content_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
-    private Set<TagEntity> tags = new HashSet<>();
+    @OneToMany(mappedBy = "contentEntity")
+    private Set<ContentTagsEntity> tags = new HashSet<>();
 
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;

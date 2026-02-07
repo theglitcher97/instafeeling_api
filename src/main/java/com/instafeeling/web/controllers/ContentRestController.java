@@ -2,6 +2,7 @@ package com.instafeeling.web.controllers;
 
 import com.instafeeling.application.use_cases.DeleteContentUseCase;
 import com.instafeeling.application.use_cases.LikeContentUseCase;
+import com.instafeeling.application.use_cases.RecommendContentUseCase;
 import com.instafeeling.application.use_cases.UploadContentUseCase;
 import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.services.ContentService;
@@ -28,6 +29,7 @@ public class ContentRestController {
     private final UploadContentUseCase uploadContentUseCase;
     private final DeleteContentUseCase deleteContentUseCase;
     private final LikeContentUseCase likeContentUseCase;
+    private final RecommendContentUseCase recommendContentUseCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ContentDTO> createContent(@RequestParam("file") MultipartFile file, @RequestParam("tags") String tags) throws IOException {
@@ -53,10 +55,15 @@ public class ContentRestController {
         return ResponseEntity.ok().body(this.contentMapper.toContentDTO(contentList));
     }
 
+    @GetMapping("/recommend")
+    public ResponseEntity<List<Content>> recommendContent(){
+        Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return ResponseEntity.ok().body(this.recommendContentUseCase.recommend(userId));
+    }
+
     @GetMapping(value = "/{id}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public ResponseEntity<byte[]> getContent(@PathVariable("id") Long contentId){
-        Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        return ResponseEntity.ok().body(this.contentService.loadUserContent(userId, contentId));
+        return ResponseEntity.ok().body(this.contentService.loadUserContent(contentId));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -72,4 +79,6 @@ public class ContentRestController {
         this.likeContentUseCase.likeContent(userId, contentId);
         return ResponseEntity.ok().build();
     }
+
+
 }

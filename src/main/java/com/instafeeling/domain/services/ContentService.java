@@ -34,10 +34,7 @@ public class ContentService {
         return this.contentRepository.findContent(userId);
     }
 
-    public byte[] loadUserContent(Long userId, Long contentId) {
-        if (!this.contentRepository.validateOwnership(userId, contentId))
-            throw new RuntimeException("You are not authorized!");
-
+    public byte[] loadUserContent(Long contentId) {
         try {
             return this.contentStorageService.loadContent(contentId.toString());
         } catch (IOException e) {

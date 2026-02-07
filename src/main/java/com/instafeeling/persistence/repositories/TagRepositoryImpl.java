@@ -2,8 +2,10 @@ package com.instafeeling.persistence.repositories;
 
 import com.instafeeling.domain.ports.storage.TagsRepository;
 import com.instafeeling.persistence.crud.ContentCrudRepository;
+import com.instafeeling.persistence.crud.ContentTagCrudRepository;
 import com.instafeeling.persistence.crud.TagCrudRepository;
 import com.instafeeling.persistence.entities.ContentEntity;
+import com.instafeeling.persistence.entities.ContentTagsEntity;
 import com.instafeeling.persistence.entities.TagEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class TagRepositoryImpl implements TagsRepository {
     private final TagCrudRepository tagCrudRepository;
     private final ContentCrudRepository contentCrudRepository;
+    private final ContentTagCrudRepository contentTagCrudRepository;
 
     @Override
     public void ensureExistence(List<String> tags) {
@@ -40,15 +43,14 @@ public class TagRepositoryImpl implements TagsRepository {
     @Override
     public void addTagsToContent(Long id, List<String> tags) {
         ContentEntity contentEntity = this.contentCrudRepository.findById(id).get();
-
         List<TagEntity> tagEntities = this.tagCrudRepository.findAllByValueIn(tags);
+
+        List<ContentTagsEntity> contentTagsEntities = new ArrayList<>();
         for (TagEntity tag : tagEntities) {
-            tag.getContentEntities().add(contentEntity);
-            contentEntity.getTags().add(tag);
+            contentTagsEntities.add(new ContentTagsEntity(contentEntity, tag));
         }
 
-        this.tagCrudRepository.saveAll(tagEntities);
-        this.contentCrudRepository.save(contentEntity);
+        this.contentTagCrudRepository.saveAll(contentTagsEntities);
     }
 
     @Override

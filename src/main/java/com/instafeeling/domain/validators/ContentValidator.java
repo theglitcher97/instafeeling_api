@@ -9,12 +9,7 @@ public class ContentValidator {
 
     public boolean isValidType(String rawType){
         String[] typeParts = rawType.split("/");
-        if (!typeParts[0].equals("image"))
-            return false;
-
-        return typeParts[1].equals("png") ||
-                typeParts[1].equals("jpg") ||
-                typeParts[1].equals("jpeg");
+        return typeParts[0].equals("image");
     }
 
     public boolean isValidSize(Long imageSizeInBytes){
