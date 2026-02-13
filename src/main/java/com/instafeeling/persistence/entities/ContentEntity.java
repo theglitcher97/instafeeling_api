@@ -34,8 +34,11 @@ public class ContentEntity {
     @Column
     private Long size;
 
-    @OneToMany(mappedBy = "contentEntity")
+    @OneToMany(mappedBy = "contentEntity", cascade = CascadeType.ALL)
     private Set<ContentTagsEntity> tags = new HashSet<>();
+
+    @OneToMany(mappedBy = "contentEntity", cascade = CascadeType.ALL)
+    private Set<LikeEntity> likes;
 
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;

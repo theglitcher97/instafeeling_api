@@ -22,4 +22,9 @@ public interface ContentCrudRepository extends CrudRepository<ContentEntity, Lon
             "GROUP BY ce " +
             "ORDER BY COUNT(ce)")
     List<ContentEntity> findPopularWithTags(@Param("tagValues") List<String> tagValues);
+
+    @Query("SELECT c.userEntity.id " +
+            "FROM ContentEntity c " +
+            "WHERE c.id = :cid")
+    Long findContentOwnerId(@Param("cid") Long contentId);
 }

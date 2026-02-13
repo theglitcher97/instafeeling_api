@@ -23,7 +23,7 @@ public class AuthRestController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthDTO> signUp(@Valid @RequestBody SignUpDTO signUpDTO){
+    public ResponseEntity<AuthDTO> signUp(@Valid @RequestBody SignUpDTO signUpDTO) {
         // check passwords are equal
         if (!signUpDTO.password().equals(signUpDTO.confirmPassword()))
             throw new RuntimeException("passwords don't coincide");

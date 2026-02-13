@@ -39,6 +39,7 @@ public class ContentRestController {
             String contentType = file.getContentType();
             Long contentSize = file.getSize();
             byte[] contentBytes = file.getBytes();
+            // TODO: What if tags are not received ?
             List<String> tagsList = Arrays.stream(tags.split(",")).toList();
 
             ContentDTO contentDTO = this.uploadContentUseCase.uploadContent(userId, contentName, contentType, contentSize, contentBytes, tagsList);
@@ -79,6 +80,4 @@ public class ContentRestController {
         this.likeContentUseCase.likeContent(userId, contentId);
         return ResponseEntity.ok().build();
     }
-
-
 }

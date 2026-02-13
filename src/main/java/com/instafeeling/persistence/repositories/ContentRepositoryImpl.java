@@ -59,11 +59,16 @@ public class ContentRepositoryImpl implements ContentRepository {
     }
 
     @Override
-    public void createLike(Long userId, Long contentId) {
+    public boolean createLike(Long userId, Long contentId) {
         UserEntity userEntity = this.userCrudRepository.findById(userId).get();
         ContentEntity contentEntity = this.contentCrudRepository.findById(contentId).get();
-        LikeEntity likeEntity = new LikeEntity( userEntity, contentEntity);
-        this.likeCrudRepository.save(likeEntity);
+        LikeEntity likeEntity = new LikeEntity(userEntity, contentEntity);
+        boolean exists = this.likeCrudRepository.existsByUserEntityAndContentEntity(userEntity, contentEntity);
+        if (!exists){
+            this.likeCrudRepository.save(likeEntity);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -71,5 +76,10 @@ public class ContentRepositoryImpl implements ContentRepository {
         List<TagEntity> tagEntities = this.tagCrudRepository.findPopularTags();
         List<String> tagValues = tagEntities.stream().map(TagEntity::getValue).collect(Collectors.toList());
         return this.contentEntityMapper.toContent(this.contentCrudRepository.findPopularWithTags(tagValues));
+    }
+
+    @Override
+    public Long findContentOwnerId(Long contentId) {
+        return this.contentCrudRepository.findContentOwnerId(contentId);
     }
 }

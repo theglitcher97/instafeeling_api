@@ -10,7 +10,12 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Table(name = "likes")
+@Table(name = "likes", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uk_user_content",
+                columnNames = {"user_id","content_id"}
+        )
+})
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,17 +44,8 @@ public class LikeEntity implements Serializable {
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "last_updated_at", nullable = false)
-    private LocalDateTime lastUpdateAt;
-
     @PrePersist
     private void onPrePersist(){
         this.createdAt = LocalDateTime.now();
-        this.lastUpdateAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    private void onPreUpdate(){
-        this.lastUpdateAt = LocalDateTime.now();
     }
 }
