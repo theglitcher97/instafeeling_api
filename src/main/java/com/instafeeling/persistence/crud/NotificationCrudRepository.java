@@ -23,6 +23,6 @@ public interface NotificationCrudRepository extends CrudRepository<NotificationE
     @Modifying
     @Query("UPDATE NotificationEntity ne " +
             "SET ne.read = :isRead " +
-            "WHERE ne.id = :id and ne.recipientId = :recipientId ")
+            "WHERE ne.id = :id and ne.recipientId = :recipientId")
     void markAs(@Param("recipientId") Long userId, @Param("id") Long id, @Param("isRead") boolean read);
 }
