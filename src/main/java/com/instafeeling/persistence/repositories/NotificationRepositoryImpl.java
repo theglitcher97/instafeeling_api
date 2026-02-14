@@ -1,12 +1,15 @@
 package com.instafeeling.persistence.repositories;
 
 import com.instafeeling.application.entities.NotificationEntity;
+import com.instafeeling.application.notifications.Notification;
 import com.instafeeling.application.notifications.NotificationRepository;
 import com.instafeeling.persistence.crud.NotificationCrudRepository;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @AllArgsConstructor
@@ -22,5 +25,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         } catch (RuntimeException e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Notification> getUserNotifications(Long userId) {
+        return this.notificationCrudRepository.findUserNotifications(userId);
     }
 }
