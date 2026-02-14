@@ -17,4 +17,14 @@ public class NotificationUseCases {
     public List<Notification> getUserNotifications(Long userId) {
         return this.notificationService.getUserNotifications(userId);
     }
+
+    @Transactional
+    public void markAsUnread(Long userId, Long id) {
+        this.notificationService.markAsUnread(userId, id);
+    }
+
+    @Transactional
+    public void maskAsReadUseCase(Long userId, Long id) {
+        this.notificationService.markAsRead(userId, id);
+    }
 }

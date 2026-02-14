@@ -3,6 +3,7 @@ package com.instafeeling.persistence.crud;
 
 import com.instafeeling.application.entities.NotificationEntity;
 import com.instafeeling.application.notifications.Notification;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +18,10 @@ public interface NotificationCrudRepository extends CrudRepository<NotificationE
             "FROM NotificationEntity ne " +
             "WHERE ne.recipientId = :recipientId AND ne.read = false")
     List<Notification> findUserNotifications(@Param("recipientId") Long userId);
+
+    @Modifying
+    @Query("UPDATE NotificationEntity ne " +
+            "SET ne.read = :isRead " +
+            "WHERE ne.id = :id and ne.recipientId = :recipientId")
+    void markAs(@Param("recipientId") Long userId, @Param("id") Long id, @Param("isRead") boolean read);
 }

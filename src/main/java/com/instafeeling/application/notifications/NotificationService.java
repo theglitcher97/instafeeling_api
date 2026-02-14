@@ -17,4 +17,12 @@ public class NotificationService {
     public List<Notification> getUserNotifications(Long userId) {
         return this.notificationRepository.getUserNotifications(userId);
     }
+
+    public void markAsUnread(Long userId, Long id) {
+        this.notificationRepository.markAsUnread(userId, id);
+    }
+
+    public void markAsRead(Long userId, Long id) {
+        this.notificationRepository.markAsRead(userId, id);
+    }
 }
