@@ -16,7 +16,8 @@ public interface NotificationCrudRepository extends CrudRepository<NotificationE
 
     @Query("SELECT new com.instafeeling.application.notifications.Notification(ne.id, ne.contentId, ne.content.name, ne.actorId, ne.actor.email) " +
             "FROM NotificationEntity ne " +
-            "WHERE ne.recipientId = :recipientId AND ne.read = false")
+            "WHERE ne.recipientId = :recipientId AND ne.read = false " +
+            "ORDER BY ne.createdAt DESC")
     List<Notification> findUserNotifications(@Param("recipientId") Long userId);
 
     @Modifying
