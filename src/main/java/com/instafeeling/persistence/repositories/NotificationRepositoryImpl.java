@@ -31,4 +31,14 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public List<Notification> getUserNotifications(Long userId) {
         return this.notificationCrudRepository.findUserNotifications(userId);
     }
+
+    @Override
+    public void markAsUnread(Long userId, Long id) {
+        this.notificationCrudRepository.markAs(userId, id, false);
+    }
+
+    @Override
+    public void markAsRead(Long userId, Long id) {
+        this.notificationCrudRepository.markAs(userId, id, true);
+    }
 }
