@@ -16,12 +16,13 @@ public interface NotificationCrudRepository extends CrudRepository<NotificationE
 
     @Query("SELECT new com.instafeeling.application.notifications.Notification(ne.id, ne.contentId, ne.content.name, ne.actorId, ne.actor.email) " +
             "FROM NotificationEntity ne " +
-            "WHERE ne.recipientId = :recipientId AND ne.read = false")
+            "WHERE ne.recipientId = :recipientId AND ne.read = false " +
+            "ORDER BY ne.createdAt DESC")
     List<Notification> findUserNotifications(@Param("recipientId") Long userId);
 
     @Modifying
     @Query("UPDATE NotificationEntity ne " +
             "SET ne.read = :isRead " +
-            "WHERE ne.id = :id and ne.recipientId = :recipientId")
+            "WHERE ne.id = :id and ne.recipientId = :recipientId ")
     void markAs(@Param("recipientId") Long userId, @Param("id") Long id, @Param("isRead") boolean read);
 }
