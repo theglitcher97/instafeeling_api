@@ -15,7 +15,7 @@ public interface ContentRepository {
 
     boolean validateExistence(Long contentId);
 
-    boolean createLike(Long userId, Long contentId);
+    void createLike(Long userId, Long contentId);
 
      List<Content> findPopular();
 

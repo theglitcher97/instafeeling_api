@@ -47,8 +47,17 @@ public class ContentService {
         this.contentRepository.deleteContent(id);
     }
 
+    /**
+     *
+     * @param userId
+     * @param contentId
+     * @return true if like was added, otherwise false
+     */
     public boolean addLike(Long userId, Long contentId) {
-        return this.contentRepository.createLike(userId, contentId);
+        boolean likeExists = this.contentRepository.likeExists(userId, contentId);
+        if (likeExists) return false;
+        this.contentRepository.createLike(userId, contentId);
+        return true;
     }
 
     public Long getContentOwnerId(Long contentId) {
