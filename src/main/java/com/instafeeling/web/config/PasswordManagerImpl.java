@@ -1,25 +1,21 @@
 package com.instafeeling.web.config;
 
 import com.instafeeling.domain.ports.security.PasswordManager;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class PasswordManagerImpl implements PasswordManager {
+    private PasswordHasher pm;
+
     @Override
     public boolean verifyPassword(String rawPassword, String hashedPassword) {
-        return this.passwordEncoder().matches(rawPassword, hashedPassword);
+        return this.pm.passwordEncoder().matches(rawPassword, hashedPassword);
     }
 
     @Override
     public String hashPassword(String rawPassword) {
-        return this.passwordEncoder().encode(rawPassword);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return this.pm.passwordEncoder().encode(rawPassword);
     }
 }
