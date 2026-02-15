@@ -20,4 +20,8 @@ public interface ContentRepository {
      List<Content> findPopular();
 
     Long findContentOwnerId(Long contentId);
+
+    boolean likeExists(Long userId, Long contentId);
+
+    void unlike(Long userId, Long contentId);
 }

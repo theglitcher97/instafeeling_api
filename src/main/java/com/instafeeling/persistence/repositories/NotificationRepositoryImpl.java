@@ -41,4 +41,9 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public void markAsRead(Long userId, Long id) {
         this.notificationCrudRepository.markAs(userId, id, true);
     }
+
+    @Override
+    public void deleteNotification(Long actorId, Long contentId, Long recipientId) {
+        this.notificationCrudRepository.deleteByActorIdAndContentIdAndRecipientId(actorId, contentId, recipientId);
+    }
 }

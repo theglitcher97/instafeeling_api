@@ -10,4 +10,6 @@ public interface NotificationRepository {
     void markAsUnread(Long userId, Long id);
 
     void markAsRead(Long userId, Long id);
+
+    void deleteNotification(Long actorId, Long contentId, Long recipientId);
 }

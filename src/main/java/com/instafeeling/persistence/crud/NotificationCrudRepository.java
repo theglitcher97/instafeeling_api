@@ -25,4 +25,6 @@ public interface NotificationCrudRepository extends CrudRepository<NotificationE
             "SET ne.read = :isRead " +
             "WHERE ne.id = :id and ne.recipientId = :recipientId")
     void markAs(@Param("recipientId") Long userId, @Param("id") Long id, @Param("isRead") boolean read);
+
+    void deleteByActorIdAndContentIdAndRecipientId(Long actorId, Long contentId, Long recipientId);
 }

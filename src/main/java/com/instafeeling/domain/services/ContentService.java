@@ -54,4 +54,17 @@ public class ContentService {
     public Long getContentOwnerId(Long contentId) {
         return this.contentRepository.findContentOwnerId(contentId);
     }
+
+    /**
+     *
+     * @param userId
+     * @param contentId
+     * @return true if like was removed, or false if it wasn't
+     */
+    public boolean unlike(Long userId, Long contentId) {
+        boolean likeExists =  this.contentRepository.likeExists(userId, contentId);
+        if (!likeExists) return false;
+        this.contentRepository.unlike(userId, contentId);
+        return true;
+    }
 }
