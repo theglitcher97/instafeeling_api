@@ -1,7 +1,6 @@
 package com.instafeeling.application.use_cases;
 
 import com.instafeeling.application.events.ContentLikedEvent;
-import com.instafeeling.domain.ports.storage.ContentRepository;
 import com.instafeeling.domain.services.ContentService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -14,7 +13,6 @@ import java.util.Objects;
 @Service
 @AllArgsConstructor
 public class LikeContentUseCase {
-    private final ContentRepository contentRepository;
     private final ContentService contentService;
     private final ApplicationEventPublisher publisher;
 

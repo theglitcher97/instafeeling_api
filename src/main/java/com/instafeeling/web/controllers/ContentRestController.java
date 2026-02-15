@@ -1,9 +1,6 @@
 package com.instafeeling.web.controllers;
 
-import com.instafeeling.application.use_cases.DeleteContentUseCase;
-import com.instafeeling.application.use_cases.LikeContentUseCase;
-import com.instafeeling.application.use_cases.RecommendContentUseCase;
-import com.instafeeling.application.use_cases.UploadContentUseCase;
+import com.instafeeling.application.use_cases.*;
 import com.instafeeling.domain.models.Content;
 import com.instafeeling.domain.services.ContentService;
 import com.instafeeling.persistence.mappers.ContentMapper;
@@ -30,6 +27,7 @@ public class ContentRestController {
     private final DeleteContentUseCase deleteContentUseCase;
     private final LikeContentUseCase likeContentUseCase;
     private final RecommendContentUseCase recommendContentUseCase;
+    private final UnlikeContentUserCase unlikeContentUserCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ContentDTO> createContent(@RequestParam("file") MultipartFile file, @RequestParam("tags") String tags) throws IOException {
@@ -78,6 +76,13 @@ public class ContentRestController {
     public ResponseEntity<Void> likeContent(@PathVariable("id") Long contentId){
         Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         this.likeContentUseCase.likeContent(userId, contentId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}/liked")
+    public ResponseEntity<Void> unlikeContent(@PathVariable("id") Long contentId){
+        Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        this.unlikeContentUserCase.unlikeContent(userId, contentId);
         return ResponseEntity.ok().build();
     }
 }

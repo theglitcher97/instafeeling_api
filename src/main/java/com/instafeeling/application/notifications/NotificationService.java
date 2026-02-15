@@ -25,4 +25,8 @@ public class NotificationService {
     public void markAsRead(Long userId, Long id) {
         this.notificationRepository.markAsRead(userId, id);
     }
+
+    public void removeNotificationOnEvent(Long actorId, Long contentId, Long recipientId) {
+        this.notificationRepository.deleteNotification(actorId, contentId, recipientId);
+    }
 }

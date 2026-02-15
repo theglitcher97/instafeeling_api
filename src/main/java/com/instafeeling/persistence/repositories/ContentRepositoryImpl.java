@@ -10,6 +10,7 @@ import com.instafeeling.persistence.entities.ContentEntity;
 import com.instafeeling.persistence.entities.LikeEntity;
 import com.instafeeling.persistence.entities.TagEntity;
 import com.instafeeling.persistence.entities.UserEntity;
+import com.instafeeling.persistence.entities.embeddedIDs.LikeEntityID;
 import com.instafeeling.persistence.mappers.ContentEntityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -58,12 +59,13 @@ public class ContentRepositoryImpl implements ContentRepository {
         return this.contentCrudRepository.findById(contentId).isPresent();
     }
 
+    // Todo: this method should be responsible for creating the like, nothing else.
     @Override
     public boolean createLike(Long userId, Long contentId) {
         UserEntity userEntity = this.userCrudRepository.findById(userId).get();
         ContentEntity contentEntity = this.contentCrudRepository.findById(contentId).get();
         LikeEntity likeEntity = new LikeEntity(userEntity, contentEntity);
-        boolean exists = this.likeCrudRepository.existsByUserEntityAndContentEntity(userEntity, contentEntity);
+        boolean exists = this.likeCrudRepository.existsById(new LikeEntityID(userId, contentId));
         if (!exists){
             this.likeCrudRepository.save(likeEntity);
             return true;
@@ -81,5 +83,15 @@ public class ContentRepositoryImpl implements ContentRepository {
     @Override
     public Long findContentOwnerId(Long contentId) {
         return this.contentCrudRepository.findContentOwnerId(contentId);
+    }
+
+    @Override
+    public boolean likeExists(Long userId, Long contentId) {
+        return this.likeCrudRepository.existsById(new LikeEntityID(userId, contentId));
+    }
+
+    @Override
+    public void unlike(Long userId, Long contentId) {
+        this.likeCrudRepository.deleteById(new LikeEntityID(userId, contentId));
     }
 }
