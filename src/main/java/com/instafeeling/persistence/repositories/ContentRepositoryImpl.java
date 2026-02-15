@@ -59,18 +59,12 @@ public class ContentRepositoryImpl implements ContentRepository {
         return this.contentCrudRepository.findById(contentId).isPresent();
     }
 
-    // Todo: this method should be responsible for creating the like, nothing else.
     @Override
-    public boolean createLike(Long userId, Long contentId) {
+    public void createLike(Long userId, Long contentId) {
         UserEntity userEntity = this.userCrudRepository.findById(userId).get();
         ContentEntity contentEntity = this.contentCrudRepository.findById(contentId).get();
         LikeEntity likeEntity = new LikeEntity(userEntity, contentEntity);
-        boolean exists = this.likeCrudRepository.existsById(new LikeEntityID(userId, contentId));
-        if (!exists){
-            this.likeCrudRepository.save(likeEntity);
-            return true;
-        }
-        return false;
+        this.likeCrudRepository.save(likeEntity);
     }
 
     @Override
