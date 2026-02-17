@@ -1,24 +1,20 @@
 package com.instafeeling.web.exceptions;
 
 import com.instafeeling.web.dtos.GenericErrorResponse;
+import com.instafeeling.web.exceptions.custom.TooManyTagsOnSingleContentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.Date;
-
 @ControllerAdvice
-public class BadCredentialExceptionHandler {
-
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<GenericErrorResponse> badCredentials(BadCredentialsException e){
+public class ContentExceptionsHandler {
+    @ExceptionHandler(exception = TooManyTagsOnSingleContentException.class)
+    public ResponseEntity<GenericErrorResponse> tooManyTagsONSingleContent(TooManyTagsOnSingleContentException e){
         GenericErrorResponse responseDTO = new GenericErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "BAD_CREDENTIALS",
-                e.getMessage()
-                );
+                "TOO_MANY_TAGS_ON_SINGLE_CONTENT",
+                e.getMessage());
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 }
