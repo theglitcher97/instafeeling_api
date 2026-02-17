@@ -1,6 +1,6 @@
 package com.instafeeling.web.exceptions;
 
-import com.instafeeling.web.dtos.GenericErrorResponseDTO;
+import com.instafeeling.web.dtos.GenericErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,7 +13,7 @@ import java.util.Date;
 @ControllerAdvice
 public class MethodArgumentNotValidExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<GenericErrorResponseDTO> invalidMethodArgument(MethodArgumentNotValidException e){
+    public ResponseEntity<GenericErrorResponse> invalidMethodArgument(MethodArgumentNotValidException e){
         StringBuilder errorMessages = new StringBuilder();
 
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
@@ -23,8 +23,7 @@ public class MethodArgumentNotValidExceptionHandler {
                     .append(";");
         }
 
-        GenericErrorResponseDTO responseDTO = new GenericErrorResponseDTO(
-                new Date().toString(),
+        GenericErrorResponse responseDTO = new GenericErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 "BAD_REQUEST",
                 errorMessages.toString()
