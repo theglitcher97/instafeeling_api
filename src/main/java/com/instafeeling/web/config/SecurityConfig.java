@@ -25,10 +25,15 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(http ->
                 http
                         .requestMatchers("/v1/auth/**").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated());
 
         httpSecurity.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.httpBasic(Customizer.withDefaults());
+        httpSecurity.httpBasic(AbstractHttpConfigurer::disable);
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
