@@ -5,6 +5,8 @@ import com.instafeeling.web.dtos.AuthDTO;
 import com.instafeeling.web.dtos.LoginDTO;
 import com.instafeeling.web.dtos.SignUpDTO;
 import com.instafeeling.web.utils.JwtUtils;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,11 @@ public class AuthRestController {
     private final JwtUtils jwtUtils;
 
 
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Account Created"),
+            @ApiResponse(responseCode = "401", description = "Passwords don't match"),
+            @ApiResponse(responseCode = "404", description = "Invalid Incoming information")
+    })
     @PostMapping("/signup")
     public ResponseEntity<AuthDTO> signUp(@Valid @RequestBody SignUpDTO signUpDTO) {
         // check passwords are equal
