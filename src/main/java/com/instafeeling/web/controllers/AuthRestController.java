@@ -2,9 +2,13 @@ package com.instafeeling.web.controllers;
 
 import com.instafeeling.domain.services.AuthService;
 import com.instafeeling.web.dtos.AuthDTO;
+import com.instafeeling.web.dtos.GenericErrorResponse;
 import com.instafeeling.web.dtos.LoginDTO;
 import com.instafeeling.web.dtos.SignUpDTO;
+import com.instafeeling.web.exceptions.custom.PasswordsDoNotMatchException;
 import com.instafeeling.web.utils.JwtUtils;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -25,15 +29,30 @@ public class AuthRestController {
 
 
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Account Created"),
-            @ApiResponse(responseCode = "401", description = "Passwords don't match"),
-            @ApiResponse(responseCode = "404", description = "Invalid Incoming information")
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Account Created"),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Invalid Credentials",
+                    content = @Content(schema = @Schema(implementation = GenericErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid incoming information",
+                    content = @Content(schema = @Schema(implementation = GenericErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Email is already registered",
+                    content = @Content(schema = @Schema(implementation = GenericErrorResponse.class))
+            )
     })
     @PostMapping("/signup")
     public ResponseEntity<AuthDTO> signUp(@Valid @RequestBody SignUpDTO signUpDTO) {
         // check passwords are equal
         if (!signUpDTO.password().equals(signUpDTO.confirmPassword()))
-            throw new RuntimeException("passwords don't coincide");
+            throw new PasswordsDoNotMatchException("passwords don't coincide");
 
         Long id = this.authService.signup(signUpDTO.email(), signUpDTO.password());
         return new ResponseEntity<>(new AuthDTO(this.jwtUtils.createToken(id)), HttpStatus.CREATED);

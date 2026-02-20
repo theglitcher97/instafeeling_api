@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Date;
 
+/**
+ * This method is trigger by jakarta.validation if the validations
+ * added to a method parameter fails
+ */
 @ControllerAdvice
 public class MethodArgumentNotValidExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
