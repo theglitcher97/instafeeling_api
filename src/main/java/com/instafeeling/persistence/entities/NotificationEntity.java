@@ -1,7 +1,6 @@
-package com.instafeeling.application.entities;
+package com.instafeeling.persistence.entities;
 
-import com.instafeeling.persistence.entities.ContentEntity;
-import com.instafeeling.persistence.entities.UserEntity;
+import com.instafeeling.application.notifications.NotificationType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,12 +47,13 @@ public class NotificationEntity {
     private boolean read;
 
     @Column(updatable = false)
-    private String type;
+    @Enumerated(value = EnumType.STRING)
+    private NotificationType type;
 
     @Column(name = "createdAt", updatable = false)
     private LocalDateTime createdAt;
 
-    public NotificationEntity(Long recipientId, Long contentReference, Long actorId, String type){
+    public NotificationEntity(Long recipientId, Long contentReference, Long actorId, NotificationType type){
         this.recipientId = recipientId;
         this.contentId = contentReference;
         this.actorId = actorId;
