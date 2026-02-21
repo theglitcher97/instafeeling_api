@@ -18,9 +18,9 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     private final NotificationCrudRepository notificationCrudRepository;
 
     @Override
-    public void create(Long actorId, Long contentId, Long recipientId) {
+    public void create(Long actorId, Long contentId, Long recipientId, NotificationType type) {
         try {
-            this.notificationCrudRepository.save(new NotificationEntity(recipientId, contentId, actorId, NotificationType.LIKE));
+            this.notificationCrudRepository.save(new NotificationEntity(recipientId, contentId, actorId, type));
         } catch (ConstraintViolationException | DataIntegrityViolationException e){
             System.out.println(e.getMessage());
         } catch (RuntimeException e){
@@ -46,5 +46,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     @Override
     public void deleteNotification(Long actorId, Long contentId, Long recipientId) {
         this.notificationCrudRepository.deleteByActorIdAndContentIdAndRecipientId(actorId, contentId, recipientId);
+    }
+
+    @Override
+    public void markAllAsRead(Long userId) {
+        this.notificationCrudRepository.markAllAsRead(userId);
     }
 }

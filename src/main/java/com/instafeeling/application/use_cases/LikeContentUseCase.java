@@ -1,6 +1,7 @@
 package com.instafeeling.application.use_cases;
 
 import com.instafeeling.application.events.ContentLikedEvent;
+import com.instafeeling.application.notifications.NotificationType;
 import com.instafeeling.domain.services.ContentService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,7 +27,7 @@ public class LikeContentUseCase {
         boolean isNew = this.contentService.addLike(userId, contentId);
 
         if (!Objects.equals(recipientId, userId) && isNew) {
-            ContentLikedEvent event = new ContentLikedEvent(userId, contentId, recipientId);
+            ContentLikedEvent event = new ContentLikedEvent(userId, contentId, recipientId, NotificationType.LIKE);
             this.publisher.publishEvent(event);
         }
 

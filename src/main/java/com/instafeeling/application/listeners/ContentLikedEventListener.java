@@ -20,6 +20,6 @@ public class ContentLikedEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void contentLikedEventListener(ContentLikedEvent event){
-        this.notificationService.createNotificationOnEvent(event.actorId(), event.contentId(), event.recipientId()  );
+        this.notificationService.createNotificationOnEvent(event.actorId(), event.contentId(), event.recipientId(), event.type());
     }
 }

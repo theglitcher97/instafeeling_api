@@ -27,4 +27,9 @@ public class NotificationUseCases {
     public void maskAsReadUseCase(Long userId, Long id) {
         this.notificationService.markAsRead(userId, id);
     }
+
+    @Transactional
+    public void markAllAsRead(Long userId) {
+        this.notificationService.markAllAsRead(userId);
+    }
 }
