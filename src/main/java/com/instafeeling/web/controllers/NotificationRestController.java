@@ -3,6 +3,11 @@ package com.instafeeling.web.controllers;
 import com.instafeeling.application.notifications.Notification;
 import com.instafeeling.application.notifications.PutNotificationDTO;
 import com.instafeeling.application.use_cases.NotificationUseCases;
+import com.instafeeling.web.api_docs.custom_responses.StandardErrorResponses;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +24,12 @@ public class NotificationRestController {
     private final NotificationUseCases notificationUseCases;
 
     @GetMapping
+    @ApiResponse(
+            responseCode = "200",
+            description = "List of user notifications",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = Notification.class)))
+    )
+    @StandardErrorResponses
     public ResponseEntity<List<Notification>> getUserNotifications(){
         Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         List<Notification> notifications = this.notificationUseCases.getUserNotifications(userId);
@@ -26,6 +37,11 @@ public class NotificationRestController {
     }
 
     @PutMapping("/{id}")
+    @ApiResponse(
+            responseCode = "200",
+            description = "update notification status read/unread"
+    )
+    @StandardErrorResponses
     public ResponseEntity<Void> updateNotificationStatus(@Valid @RequestBody PutNotificationDTO notificationDTO, @PathVariable Long id) {
         Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
