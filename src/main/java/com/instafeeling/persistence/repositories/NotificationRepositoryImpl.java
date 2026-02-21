@@ -1,6 +1,7 @@
 package com.instafeeling.persistence.repositories;
 
-import com.instafeeling.application.entities.NotificationEntity;
+import com.instafeeling.application.notifications.NotificationType;
+import com.instafeeling.persistence.entities.NotificationEntity;
 import com.instafeeling.application.notifications.Notification;
 import com.instafeeling.application.notifications.NotificationRepository;
 import com.instafeeling.persistence.crud.NotificationCrudRepository;
@@ -19,7 +20,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     @Override
     public void create(Long actorId, Long contentId, Long recipientId) {
         try {
-            this.notificationCrudRepository.save(new NotificationEntity(recipientId, contentId, actorId, "CONTENT_LIKED_EVENT"));
+            this.notificationCrudRepository.save(new NotificationEntity(recipientId, contentId, actorId, NotificationType.LIKE));
         } catch (ConstraintViolationException | DataIntegrityViolationException e){
             System.out.println(e.getMessage());
         } catch (RuntimeException e){

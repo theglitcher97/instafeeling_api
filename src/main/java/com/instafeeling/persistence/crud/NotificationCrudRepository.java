@@ -1,7 +1,7 @@
 package com.instafeeling.persistence.crud;
 
 
-import com.instafeeling.application.entities.NotificationEntity;
+import com.instafeeling.persistence.entities.NotificationEntity;
 import com.instafeeling.application.notifications.Notification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
