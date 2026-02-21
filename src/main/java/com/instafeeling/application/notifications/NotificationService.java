@@ -10,8 +10,8 @@ import java.util.List;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
 
-    public void createNotificationOnEvent(Long actorId, Long contentId, Long recipientId) {
-        this.notificationRepository.create(actorId, contentId, recipientId);
+    public void createNotificationOnEvent(Long actorId, Long contentId, Long recipientId, NotificationType type) {
+        this.notificationRepository.create(actorId, contentId, recipientId, type);
     }
 
     public List<Notification> getUserNotifications(Long userId) {
@@ -28,5 +28,9 @@ public class NotificationService {
 
     public void removeNotificationOnEvent(Long actorId, Long contentId, Long recipientId) {
         this.notificationRepository.deleteNotification(actorId, contentId, recipientId);
+    }
+
+    public void markAllAsRead(Long userId) {
+        this.notificationRepository.markAllAsRead(userId);
     }
 }

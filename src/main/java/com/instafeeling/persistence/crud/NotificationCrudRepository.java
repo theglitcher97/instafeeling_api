@@ -27,4 +27,10 @@ public interface NotificationCrudRepository extends CrudRepository<NotificationE
     void markAs(@Param("recipientId") Long userId, @Param("id") Long id, @Param("isRead") boolean read);
 
     void deleteByActorIdAndContentIdAndRecipientId(Long actorId, Long contentId, Long recipientId);
+
+    @Modifying
+    @Query("UPDATE NotificationEntity ne " +
+            "SET ne.read = true " +
+            "WHERE ne.recipientId = :recipientId")
+    void markAllAsRead(@Param("recipientId") Long userId);
 }

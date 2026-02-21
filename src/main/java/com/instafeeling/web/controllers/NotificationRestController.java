@@ -52,4 +52,16 @@ public class NotificationRestController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiResponse(
+            responseCode = "200",
+            description = "update all user notifications status as read"
+    )
+    @StandardErrorResponses
+    @PutMapping("/mark-all-read")
+    public ResponseEntity<Void> markAllNotificationsAsRead() {
+        Long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        this.notificationUseCases.markAllAsRead(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

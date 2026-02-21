@@ -3,7 +3,7 @@ package com.instafeeling.application.notifications;
 import java.util.List;
 
 public interface NotificationRepository {
-    void create(Long actorId, Long contentId, Long recipientId);
+    void create(Long actorId, Long contentId, Long recipientId, NotificationType type);
 
     List<Notification> getUserNotifications(Long userId);
 
@@ -12,4 +12,6 @@ public interface NotificationRepository {
     void markAsRead(Long userId, Long id);
 
     void deleteNotification(Long actorId, Long contentId, Long recipientId);
+
+    void markAllAsRead(Long userId);
 }
